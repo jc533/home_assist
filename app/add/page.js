@@ -3,12 +3,14 @@
 import { isNotFoundError } from "next/dist/client/components/not-found"
 import { useRouter } from 'next/navigation'
 import { useState } from "react"
+import Form from "../components/form"
 
 export default function Add(){
     return (
         <>
         <RoomForm/>
         <CabinetForm/>
+        <BoxForm/>
         <ItemForm/>
         <Msg/>
         </>
@@ -22,30 +24,35 @@ const Msg = ()=>{
         </>
     )
 }
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 const asyncSend = async (obj) => {
+    console.log("store")
     localStorage.setItem("db", JSON.stringify(obj))
+    // await timeout(2000)
+    console.log("stored!!!!")
 }
-const handleSubmit = async (e) => {
-    console.log(itm)
+const submitHandler = (setItm,defaultObj,func=()=>{})=>async(e)=>{
     e.preventDefault()
+    await func()
     setItm(defaultObj)
-    await asyncSend(itm)
-    router.push("/")
 }
+const changeHaldler = (setItm,itm,func=()=>{})=>(e,type)=>{
+    let nitm = {...itm}
+    nitm[type] = e.target.value
+    func()
+    setItm(nitm)
+}
+
 const CabinetForm = ()=>{
+    const defaultObj = {name:""}
     const [itm,setItm] = useState({
         name:"lorem"
     })
-    const handleSubmit = (e)=>{
-        console.log(itm)
-        e.preventDefault()
-    }
-    const handleChange = (e,type)=>{
-        // alert()
-        let nitm = {...itm}
-        nitm[type] = e.target.value
-        setItm(nitm)
-    } 
+    const handleSubmit = submitHandler(setItm,defaultObj,
+        async ()=>{await asyncSend(itm)})
+    const handleChange = changeHaldler(setItm,itm)
     return (
         <form onSubmit={handleSubmit}>
             <h3>Cabinet</h3>
@@ -58,26 +65,38 @@ const CabinetForm = ()=>{
         </form>
     )
 }
-
+const BoxForm = ()=>{
+    const defaultObj = {name:""}
+    const router = useRouter()
+    const [itm,setItm] = useState({
+        name:"lorem"
+    })
+    const handleSubmit = submitHandler(setItm,defaultObj,async ()=>{await asyncSend(itm)})
+    const handleChange = changeHaldler(setItm,itm)
+    return (
+        <form onSubmit={handleSubmit}>
+            <h3>Room</h3>
+            <label>name</label>
+            <input 
+                value={itm.name} 
+                onChange={(e)=>handleChange(e,"name")}></input>
+            {/* <br/> */}
+            <select name="" id="">
+                <option value="test">test</option>
+            </select>
+            <input type="submit" value="submit" />
+        </form>
+    )
+}
 const RoomForm = ()=>{
     const defaultObj = {name:""}
     const router = useRouter()
     const [itm,setItm] = useState({
         name:"lorem"
     })
-    // const handleSubmit = async (e)=>{
-    //     console.log(itm)
-    //     e.preventDefault()
-    //     setItm(defaultObj)
-    //     await asyncSend(itm)
-    //     router.push("/")
-    // }
-    const handleChange = (e,type)=>{
-        // alert()
-        let nitm = {...itm}
-        nitm[type] = e.target.value
-        setItm(nitm)
-    } 
+    // const 
+    const handleSubmit = submitHandler(setItm,defaultObj,async ()=>{await asyncSend(itm)})
+    const handleChange = changeHaldler(setItm,itm)
     return (
         <form onSubmit={handleSubmit}>
             <h3>Room</h3>
@@ -91,6 +110,12 @@ const RoomForm = ()=>{
     )
 }
 const ItemForm = ()=>{
+    const defaultObj = {
+        name:"lorem",
+        number:1,
+        room:"hi",
+        description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus aut perferendis exercitationem delectus iusto, molestiae quam ratione magni eum necessitatibus laborum, deleniti numquam quibusdam veniam tempora nisi voluptatibus commodi porro."
+    }
     const [itm,setItm] = useState({
         name:"lorem",
         number:1,
@@ -98,16 +123,8 @@ const ItemForm = ()=>{
         description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus aut perferendis exercitationem delectus iusto, molestiae quam ratione magni eum necessitatibus laborum, deleniti numquam quibusdam veniam tempora nisi voluptatibus commodi porro."
         
     })
-    const handleSubmit = (e)=>{
-        console.log(itm)
-        e.preventDefault()
-    }
-    const handleChange = (e,type)=>{
-        // alert()
-        let nitm = {...itm}
-        nitm[type] = e.target.value
-        setItm(nitm)
-    } 
+    const handleSubmit = submitHandler(setItm,defaultObj,async ()=>{await asyncSend(itm)})
+    const handleChange = changeHaldler(setItm,itm)
     return (
         <form onSubmit={handleSubmit}>
             <h3>Item</h3>
