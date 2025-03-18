@@ -1,0 +1,14 @@
+{
+  "mandarin": {
+    "translation":{
+      "room": "房間",
+      "cabinet": "櫃子",
+      "box": "盒子",
+      "item": "物品",
+      "name": "名字",
+      "number": "數量",
+      "description": "說明",
+      "image": "圖片"
+    }
+  }
+}
