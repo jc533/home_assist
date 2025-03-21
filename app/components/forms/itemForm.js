@@ -9,6 +9,7 @@ export default function ItemForm() {
     number: 1,
     room: "hi",
     cabinent: "no",
+    drawer: "quack",
     box: "hi",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus aut perferendis exercitationem delectus iusto, molestiae quam ratione magni eum necessitatibus laborum, deleniti numquam quibusdam veniam tempora nisi voluptatibus commodi porro."
   }
@@ -50,6 +51,17 @@ export default function ItemForm() {
           <option value="hello">hello</option>
         </select>
       </div>
+      <label className="block text-lg">{trans["drawer"] || "drawer"}</label>
+      <div className="mb-2">
+        <select
+          className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
+          name="" id="" value={itm.drawer}
+          onChange={(e) => handleChange(e, "drawer")}>
+          <option value="hi">hi</option>
+          <option value="hello">hello</option>
+        </select>
+      </div>
+
       <label className="block text-lg">{trans["box"] || "box"}</label>
       <div className="mb-2">
         <select

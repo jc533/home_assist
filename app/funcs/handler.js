@@ -1,7 +1,7 @@
 function submitHandler(setItm, defaultObj, func = () => { }) {
   return async (e) => {
     e.preventDefault()
-    // await func()
+    await func()
     setItm(defaultObj)
   }
 }

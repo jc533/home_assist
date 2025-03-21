@@ -1,15 +1,13 @@
-import { useRouter } from "next/router"
-import { submitHandler, changeHandler, asyncSend } from "../../funcs/"
+import { submitHandler, changeHandler, asyncSend } from "../../funcs"
 import { useContext, useState } from "react"
 import translation from "../../i18n/text.json"
 
 
-export default function BoxForm() {
+export default function DrawerForm() {
   const defaultObj = {
     name: "",
     room: "hi",
-    cabinet: "hello",
-    drawer: "hahaha"
+    cabinet: "hello"
   }
   const lang = "mandarin"
   // const router = useRouter()
@@ -19,7 +17,7 @@ export default function BoxForm() {
   const trans = translation[lang].translation
   return (
     <form onSubmit={handleSubmit}>
-      <p className="text-3xl">{trans["box"] || "Box"}</p >
+      <p className="text-3xl">{trans["drawer"] || "Drawer"}</p >
       <label className="block text-lg ">{trans["name"] || "name"}</label>
       <input
         className="w-full pl-2 outline outline-1 rounded text-lg"
@@ -45,17 +43,6 @@ export default function BoxForm() {
           <option value="hello">hello</option>
         </select>
       </div>
-      <label>{trans["drawer"] || "drawer"}</label>
-      <div className="mb-2">
-        <select
-          className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.drawer}
-          onChange={(e) => handleChange(e, "drawer")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
-        </select>
-      </div>
-
       <input
         className="w-full bg-gray-200 text-lg rounded-lg file:border-0 file:bg-gray-300 file:hover:bg-gray-50"
         type="file" name="" id="" />
