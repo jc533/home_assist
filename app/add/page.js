@@ -1,8 +1,4 @@
-'use client'
-// import { isNotFoundError } from "next/dist/client/components/not-found"
-import { useRouter } from 'next/navigation'
-import { useState } from "react"
-import translation from "../i18n/text.json"
+// import { isNotFoundError } from "next/dist/client/components/not-found" import translation from "../i18n/text.json"
 import Navbar from '../components/navbar'
 import { Msg } from '../components/msgbox'
 import {

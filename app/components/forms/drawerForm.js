@@ -1,46 +1,34 @@
-import { submitHandler, changeHandler, asyncSend } from "../../funcs"
-import { useContext, useState } from "react"
 import translation from "../../i18n/text.json"
+import { getAllRooms, getAllCabinets } from "../../actions/spaceActions.ts"
+import { createDrawerAction } from "../../actions/formActions"
 
 
-export default function DrawerForm() {
-  const defaultObj = {
-    name: "",
-    room: "hi",
-    cabinet: "hello"
-  }
+export default async function DrawerForm() {
   const lang = "mandarin"
-  // const router = useRouter()
-  const [itm, setItm] = useState(defaultObj)
-  const handleSubmit = submitHandler(setItm, defaultObj, async () => { await asyncSend(itm) })
-  const handleChange = changeHandler(setItm, itm)
+  const rooms = await getAllRooms()
+  const cabinets = await getAllCabinets()
   const trans = translation[lang].translation
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={createDrawerAction}>
       <p className="text-3xl">{trans["drawer"] || "Drawer"}</p >
       <label className="block text-lg ">{trans["name"] || "name"}</label>
       <input
+        name="name"
         className="w-full pl-2 outline outline-1 rounded text-lg"
-        value={itm.name}
-        onChange={(e) => handleChange(e, "name")}></input>
+      />
       <label className="block text-lg">{trans["room"] || "room"}</label>
       <div className="mb-2">
         <select
           className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.room}
-          onChange={(e) => handleChange(e, "room")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
+          name="room" id="">
+          {rooms.map((room) => <option key={room.id} value={room.id}>{room.name}</option>)}
         </select>
       </div>
       <label>{trans["cabinet"] || "cabinet"}</label>
       <div className="mb-2">
         <select
           className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.cabinet}
-          onChange={(e) => handleChange(e, "cabinet")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
+          name="cabinet" id="">         {cabinets.map((cabinets) => <option key={cabinets.id} value={cabinets.id}>{cabinets.name}</option>)}
         </select>
       </div>
       <input

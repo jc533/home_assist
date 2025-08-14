@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// schema.prisma
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+}
+
+model Image {
+  id        String    @id @default(cuid())
+  src       String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  rooms     Room[]
+  Cabinet   Cabinet[]
+  Drawer    Drawer[]
+  Box       Box[]
+  Item      Item[]
+}
+
+model Room {
+  id      String    @id @default(cuid())
+  name    String
+  imageId String?
+  image   Image?    @relation(fields: [imageId], references: [id])
+  Cabinet Cabinet[]
+  Drawer  Drawer[]
+  Box     Box[]
+  Item    Item[]
+}
+
+model Cabinet {
+  id      String   @id @default(cuid())
+  name    String
+  roomId  String
+  room    Room     @relation(fields: [roomId], references: [id])
+  imageId String?
+  image   Image?   @relation(fields: [imageId], references: [id])
+  Drawer  Drawer[]
+  Box     Box[]
+  Item    Item[]
+}
+
+model Drawer {
+  id        String  @id @default(cuid())
+  name      String
+  roomId    String
+  room      Room    @relation(fields: [roomId], references: [id])
+  cabinetId String
+  cabinet   Cabinet @relation(fields: [cabinetId], references: [id])
+  imageId   String?
+  image     Image?  @relation(fields: [imageId], references: [id])
+  Box       Box[]
+  Item      Item[]
+}
+
+model Box {
+  id        String  @id @default(cuid())
+  name      String
+  roomId    String
+  room      Room    @relation(fields: [roomId], references: [id])
+  cabinetId String
+  cabinet   Cabinet @relation(fields: [cabinetId], references: [id])
+  drawerId  String
+  drawer    Drawer  @relation(fields: [drawerId], references: [id])
+  imageId   String?
+  image     Image?  @relation(fields: [imageId], references: [id])
+  Item      Item[]
+}
+
+model Item {
+  id            String  @id @default(cuid())
+  name          String
+  description   String?
+  numberOfItems Int     @default(1)
+  roomId        String
+  room          Room    @relation(fields: [roomId], references: [id])
+  cabinetId     String
+  cabinet       Cabinet @relation(fields: [cabinetId], references: [id])
+  drawerId      String
+  drawer        Drawer  @relation(fields: [drawerId], references: [id])
+  boxId         String
+  box           Box     @relation(fields: [boxId], references: [id])
+  imageId       String?
+  image         Image?  @relation(fields: [imageId], references: [id])
+}

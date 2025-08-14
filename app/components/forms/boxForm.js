@@ -1,58 +1,43 @@
-import { useRouter } from "next/router"
-import { submitHandler, changeHandler, asyncSend } from "../../funcs/"
-import { useContext, useState } from "react"
 import translation from "../../i18n/text.json"
+import { getAllRooms, getAllCabinets, getAllDrawers } from "../../actions/spaceActions.ts"
+import { createBoxAction } from "../../actions/formActions"
 
-
-export default function BoxForm() {
-  const defaultObj = {
-    name: "",
-    room: "hi",
-    cabinet: "hello",
-    drawer: "hahaha"
-  }
+export default async function BoxForm() {
   const lang = "mandarin"
-  // const router = useRouter()
-  const [itm, setItm] = useState(defaultObj)
-  const handleSubmit = submitHandler(setItm, defaultObj, async () => { await asyncSend(itm) })
-  const handleChange = changeHandler(setItm, itm)
   const trans = translation[lang].translation
+  const rooms = await getAllRooms()
+  const cabinets = await getAllCabinets()
+  const drawers = await getAllDrawers()
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={createBoxAction}>
       <p className="text-3xl">{trans["box"] || "Box"}</p >
       <label className="block text-lg ">{trans["name"] || "name"}</label>
       <input
+        name="name"
         className="w-full pl-2 outline outline-1 rounded text-lg"
-        value={itm.name}
-        onChange={(e) => handleChange(e, "name")}></input>
+      />
       <label className="block text-lg">{trans["room"] || "room"}</label>
       <div className="mb-2">
         <select
           className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.room}
-          onChange={(e) => handleChange(e, "room")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
+          name="room" id="">
+          {rooms.map((room) => <option key={room.id} value={room.id}>{room.name}</option>)}
         </select>
       </div>
       <label>{trans["cabinet"] || "cabinet"}</label>
       <div className="mb-2">
         <select
           className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.cabinet}
-          onChange={(e) => handleChange(e, "cabinet")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
+          name="cabinet" id="">
+          {cabinets.map((cabinet) => <option key={cabinet.id} value={cabinet.id}>{cabinet.name}</option>)}
         </select>
       </div>
       <label>{trans["drawer"] || "drawer"}</label>
       <div className="mb-2">
         <select
           className="rounded-lg text-lg w-auto min-w-28 focus:border-1"
-          name="" id="" value={itm.drawer}
-          onChange={(e) => handleChange(e, "drawer")}>
-          <option value="hi">hi</option>
-          <option value="hello">hello</option>
+          name="drawer" id="">
+          {drawers.map((drawer) => <option key={drawer.id} value={drawer.id}>{drawer.name}</option>)}
         </select>
       </div>
 
