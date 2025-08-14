@@ -1,6 +1,7 @@
 import translation from "../../i18n/text.json"
 import { createCabinet, getAllRooms } from "../../actions/spaceActions.ts"
 import { createCabinetAction } from "../../actions/formActions"
+import ImgBtn from "../imgBtn"
 
 
 export default async function CabinetForm() {
@@ -27,7 +28,7 @@ export default async function CabinetForm() {
           })}
         </select>
       </div>
-      <input className="w-full bg-gray-200 text-lg rounded-lg file:border-0 file:bg-gray-300 file:hover:bg-gray-50" type="file" />
+      <ImgBtn />
       <div className="flex justify-end mt-2">
         <input className="mt-2 p-1 rounded bg-cyan-700 hover:bg-cyan-300 text-white"
           type="submit" />

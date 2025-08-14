@@ -1,6 +1,7 @@
 import translation from "../../i18n/text.json"
 import { getAllRooms, getAllCabinets, getAllDrawers, getAllBoxes } from "../../actions/spaceActions.ts"
 import { createItemAction } from "../../actions/formActions"
+import ImgBtn from "../imgBtn"
 
 export default async function ItemForm() {
   const lang = "mandarin"
@@ -56,7 +57,7 @@ export default async function ItemForm() {
           {boxes.map((box) => <option key={box.id} value={box.id}>{box.name}</option>)}
         </select>
       </div>
-      <input className="w-full bg-gray-200 text-lg rounded-lg file:border-0 file:bg-gray-300 file:hover:bg-gray-50" type="file" name="" id="" />
+      <ImgBtn />
       <label className="block text-lg">{trans["description"] || "description"}</label>
       <textarea
         name="description"
