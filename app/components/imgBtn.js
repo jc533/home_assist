@@ -18,7 +18,7 @@ export default function ImgBtn({ src, alt }) {
   return <>
     <input
       className="w-full bg-gray-200 text-lg rounded-lg file:border-0 file:bg-gray-300 file:hover:bg-gray-50"
-      type="file" name="img" id="" ref={imgRef} onChange={imgChange} />
+      type="file" name="img" id="" ref={imgRef} onChange={imgChange} accept="image/*" />
     {img && <Image src={URL.createObjectURL(img)} width={500} height={500} alt={alt || ""}
       onClick={imgRemove} />}
   </>

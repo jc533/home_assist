@@ -2,11 +2,7 @@
 import Navbar from '../components/navbar'
 import { Msg } from '../components/msgbox'
 import {
-  RoomForm,
-  CabinetForm,
-  DrawerForm,
-  BoxForm,
-  ItemForm
+  Form
 } from '../components/forms'
 
 
@@ -19,11 +15,11 @@ export default function Add() {
       <div className="relative my-10 px-6 pt-6 pb-6
           bg-slate-100 shadow-xl ring-1 ring-gray-900/5
           sm:mx-auto max-w-lg rounded-lg sm:px-10">
-        <RoomForm />
-        <CabinetForm />
-        <DrawerForm />
-        <BoxForm />
-        <ItemForm />
+        <Form func="add" name="Room" />
+        <Form func="add" name="Cabinet" />
+        <Form func="add" name="Drawer" />
+        <Form func="add" name="Box" />
+        <Form func="add" name="Item" />
         <Msg type="error" />
         <Msg type="success" />
       </div>

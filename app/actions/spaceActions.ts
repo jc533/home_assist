@@ -34,23 +34,26 @@ export async function createItem(obj) {
   });
   return item;
 }
-export async function getAllRooms() {
-  const rooms = await prisma.room.findMany();
+export async function getAllRooms(obj) {
+  const rooms = await prisma.room.findMany({
+    where: obj
+  }
+  );
   return rooms;
 }
-export async function getAllCabinets() {
-  const cabinets = await prisma.cabinet.findMany();
+export async function getAllCabinets(obj) {
+  const cabinets = await prisma.cabinet.findMany({ where: obj });
   return cabinets;
 }
-export async function getAllDrawers() {
-  const drawers = await prisma.drawer.findMany();
+export async function getAllDrawers(obj) {
+  const drawers = await prisma.drawer.findMany({ where: obj });
   return drawers;
 }
-export async function getAllBoxes() {
-  const boxs = await prisma.box.findMany();
+export async function getAllBoxes(obj) {
+  const boxs = await prisma.box.findMany({ where: obj });
   return boxs;
 }
 export async function getAllItems(obj) {
-  const items = await prisma.item.findMany();
+  const items = await prisma.item.findMany({ where: obj });
   return items;
 }

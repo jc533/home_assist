@@ -36,6 +36,7 @@ export async function createDrawerAction(formData) {
   }
   try {
     const res = await createDrawer({ name, roomId, cabinetId })
+    revalidatePath('/add')
     return { sauccess: true, message: 'drawer created successfully' };
   } catch (error) {
     return { success: false, message: 'Error creating drawer' };
@@ -51,6 +52,7 @@ export async function createBoxAction(formData) {
   }
   try {
     const res = await createBox({ name, roomId, cabinetId, drawerId })
+    revalidatePath('/add')
     return { sauccess: true, message: 'box created successfully' };
   } catch (error) {
     return { success: false, message: 'Error creating box' };
@@ -69,6 +71,7 @@ export async function createItemAction(formData) {
   }
   try {
     const res = await createItem({ name, numberOfItems, description, roomId, cabinetId, drawerId, boxId })
+    revalidatePath('/add')
     return { sauccess: true, message: 'box created successfully' };
   } catch (error) {
     return { success: false, message: 'Error creating box' };
