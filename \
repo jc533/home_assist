@@ -1,41 +1,15 @@
-'use client'
-import { useEffect, useRef, useTransition, useActionState } from "react"
+"use client"
+import { useState, useEffect, useTransition, useActionState } from "react"
 import translation from "../../i18n/text.json"
+import { getAllRooms, getAllCabinets, getAllDrawers, getAllBoxes } from "../../actions/spaceActions.ts"
 import { createRoomAction, createCabinetAction, createDrawerAction, createBoxAction, createItemAction } from "../../actions/formActions"
 import ImgBtn from "../imgBtn"
 import MultiSelect from "./multiSelect.js"
+import { useRouter } from "next/navigation"
 
 
-// import { isNotFoundError } from "next/dist/client/components/not-found"
-// import { useRouter } from 'next/navigation'
-// import { useState } from "react"
-//
-//
-// export default function Form({ children, defaultObj, submit }) {
-//   const router = useRouter()
-//   const [itm, setItm] = useState(defaultObj)
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-//     setItm(defaultObj)
-//     await send(itm)
-//     router.push("/")
-//   }
-//   const handleChange = (e, type) => {
-//     let nitm = { ...itm }
-//     console.log(e.target.type)
-//     nitm[type] = e.target.value
-//     setItm(nitm)
-//   }
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       {children}
-//       <input type="submit" value="submit" />
-//     </form>
-//   )
-// }
-//
-export default function FormWithRoom({ name, func, rooms }) {
-
+export default function Form({ name, func }) {
+  const router = useRouter()
   const lang = "mandarin"
   const levels = { "room": 0, "cabinet": 1, "drawer": 2, "box": 3, "item": 4 }
   const formActon = {
@@ -48,11 +22,32 @@ export default function FormWithRoom({ name, func, rooms }) {
     }
   }
 
+  const [rooms, setRooms] = useState([])
   const trans = translation[lang].translation
   const [isPending, startTransition] = useTransition();
+  const [state, actionFunc, pending] = useActionState(formActon[func][name.toLowerCase()], { success: false, error: null });
+  useEffect(() => {
+    (async () => {
+      const data = await fetch("/api/room")
+      setRooms(data)
+    })()
+  }, [])
+
+  useEffect(() => {
+    if (state.success) {
+      (async () => {
+        const data = await fetch("/api/room")
+        setRooms(data)
+      })()
+
+      router.refresh()
+    }
+
+  }, [state.success])
+
 
   return (
-    <form action={formActon[func][name.toLowerCase()]}>
+    <form action={actionFunc}>
       <p className="text-3xl">{trans[name.toLowerCase()] || name}</p>
       <label className="block text-lg">{trans["name"] || "name"}</label>
       <input
@@ -71,6 +66,7 @@ export default function FormWithRoom({ name, func, rooms }) {
       }
       <MultiSelect
         rooms={rooms}
+        key={rooms.length}
         isPending={isPending}
         startTransition={startTransition}
         level={levels[name.toLowerCase()]}
